@@ -12,10 +12,6 @@ variable "resource_group_name" {
   type = "string"
 }
 
-variable "dns_zone" {
-  type = "string"
-}
-
 variable "ssl_cert" {
   type        = "string"
   description = "the contents of an SSL certificate which should be passed to the isoseg gorouter, optional if `ssl_ca_cert` is provided"

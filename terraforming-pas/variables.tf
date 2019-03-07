@@ -141,7 +141,26 @@ variable "pcf_pas_subnet" {
   default = "10.0.0.0/22"
 }
 
-variable "pcf_services_subnet" {
-  type    = "string"
-  default = "10.0.4.0/22"
+variable "pcf_infrastructure_subnet_name" {
+  type = "string"
+}
+
+variable "pcf_vnet_name" {
+  type = "string"
+}
+
+variable "pcf_vnet_resourcegroup" {
+  type = "string"
+}
+
+variable "pcf_monitoring_services_subnet_name" {
+  type = "string"
+}
+
+variable "pcf_services_subnet_name" {
+  type = "string"
+}
+
+variable "diego-ssh_lb_ipaddress" {
+  type = "string"
 }

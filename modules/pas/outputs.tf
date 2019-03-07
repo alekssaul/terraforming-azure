@@ -1,19 +1,3 @@
-output "mysql_dns" {
-  value = "mysql.${azurerm_dns_a_record.mysql.zone_name}"
-}
-
-output "tcp_domain" {
-  value = "tcp.${azurerm_dns_a_record.tcp.zone_name}"
-}
-
-output "sys_domain" {
-  value = "sys.${azurerm_dns_a_record.sys.zone_name}"
-}
-
-output "apps_domain" {
-  value = "apps.${azurerm_dns_a_record.apps.zone_name}"
-}
-
 output "web_lb_name" {
   value = "${azurerm_lb.web.name}"
 }
@@ -33,27 +17,27 @@ output "tcp_lb_name" {
 # Subnets
 
 output "pas_subnet_name" {
-  value = "${azurerm_subnet.pas_subnet.name}"
+  value = "${data.azurerm_subnet.pas_subnet.name}"
 }
 
 output "pas_subnet_cidr" {
-  value = "${azurerm_subnet.pas_subnet.address_prefix}"
+  value = "${data.azurerm_subnet.pas_subnet.address_prefix}"
 }
 
 output "pas_subnet_gateway" {
-  value = "${cidrhost(azurerm_subnet.pas_subnet.address_prefix, 1)}"
+  value = "${cidrhost(data.azurerm_subnet.pas_subnet.address_prefix, 1)}"
 }
 
 output "services_subnet_name" {
-  value = "${azurerm_subnet.services_subnet.name}"
+  value = "${data.azurerm_subnet.services_subnet.name}"
 }
 
 output "services_subnet_cidr" {
-  value = "${azurerm_subnet.services_subnet.address_prefix}"
+  value = "${data.azurerm_subnet.services_subnet.address_prefix}"
 }
 
 output "services_subnet_gateway" {
-  value = "${cidrhost(azurerm_subnet.services_subnet.address_prefix, 1)}"
+  value = "${cidrhost(data.azurerm_subnet.services_subnet.address_prefix, 1)}"
 }
 
 # Storage
@@ -86,9 +70,9 @@ output "cf_buildpacks_storage_container_name" {
 # Deprecated
 
 output "pas_subnet_cidrs" {
-  value = ["${azurerm_subnet.pas_subnet.address_prefix}"]
+  value = ["${data.azurerm_subnet.pas_subnet.address_prefix}"]
 }
 
 output "services_subnet_cidrs" {
-  value = ["${azurerm_subnet.services_subnet.address_prefix}"]
+  value = ["${data.azurerm_subnet.services_subnet.address_prefix}"]
 }

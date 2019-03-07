@@ -1,3 +1,4 @@
+/*
 resource "azurerm_public_ip" "diego-ssh-lb-public-ip" {
   name                = "diego-ssh-lb-public-ip"
   location            = "${var.location}"
@@ -5,6 +6,7 @@ resource "azurerm_public_ip" "diego-ssh-lb-public-ip" {
   allocation_method   = "Static"
   sku                 = "Standard"
 }
+*/
 
 resource "azurerm_lb" "diego-ssh" {
   name                = "${var.env_name}-diego-ssh-lb"
@@ -13,8 +15,9 @@ resource "azurerm_lb" "diego-ssh" {
   sku                 = "Standard"
 
   frontend_ip_configuration = {
-    name                 = "frontendip"
-    public_ip_address_id = "${azurerm_public_ip.diego-ssh-lb-public-ip.id}"
+    name                          = "frontendip"
+    private_ip_address            = "${var.diego-ssh_lb_ipaddress}"
+    private_ip_address_allocation = "static"
   }
 }
 

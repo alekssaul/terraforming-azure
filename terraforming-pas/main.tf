@@ -17,10 +17,11 @@ module "infra" {
 
   env_name                          = "${var.env_name}"
   location                          = "${var.location}"
-  dns_subdomain                     = "${var.dns_subdomain}"
-  dns_suffix                        = "${var.dns_suffix}"
   pcf_infrastructure_subnet         = "${var.pcf_infrastructure_subnet}"
   pcf_virtual_network_address_space = "${var.pcf_virtual_network_address_space}"
+  pcf_vnet_name                     = "${var.pcf_vnet_name}"
+  pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
+  pcf_infrastructure_subnet_name    = "${var.pcf_infrastructure_subnet_name}"
 }
 
 module "ops_manager" {
@@ -37,7 +38,6 @@ module "ops_manager" {
   optional_ops_manager_image_uri = "${var.optional_ops_manager_image_uri}"
 
   resource_group_name = "${module.infra.resource_group_name}"
-  dns_zone_name       = "${module.infra.dns_zone_name}"
   security_group_id   = "${module.infra.security_group_id}"
   subnet_id           = "${module.infra.infrastructure_subnet_id}"
 }
@@ -48,8 +48,7 @@ module "pas" {
   env_name = "${var.env_name}"
   location = "${var.location}"
 
-  pas_subnet_cidr      = "${var.pcf_pas_subnet}"
-  services_subnet_cidr = "${var.pcf_services_subnet}"
+  pas_subnet_cidr = "${var.pcf_pas_subnet}"
 
   cf_storage_account_name              = "${var.cf_storage_account_name}"
   cf_buildpacks_storage_container_name = "${var.cf_buildpacks_storage_container_name}"
@@ -58,11 +57,15 @@ module "pas" {
   cf_resources_storage_container_name  = "${var.cf_resources_storage_container_name}"
 
   resource_group_name                 = "${module.infra.resource_group_name}"
-  dns_zone_name                       = "${module.infra.dns_zone_name}"
   network_name                        = "${module.infra.network_name}"
   bosh_deployed_vms_security_group_id = "${module.infra.bosh_deployed_vms_security_group_id}"
+  pcf_services_subnet_name            = "${var.pcf_services_subnet_name}"
+  pcf_monitoring_services_subnet_name = "${var.pcf_monitoring_services_subnet_name}"
+  diego-ssh_lb_ipaddress              = "${var.diego-ssh_lb_ipaddress}"
+  pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
 }
 
+/*
 module "certs" {
   source = "../modules/certs"
 
@@ -71,6 +74,7 @@ module "certs" {
   ssl_ca_cert        = "${var.ssl_ca_cert}"
   ssl_ca_private_key = "${var.ssl_ca_private_key}"
 }
+
 
 module "isolation_segment" {
   source = "../modules/isolation_segment"
@@ -86,5 +90,6 @@ module "isolation_segment" {
   ssl_ca_private_key = "${var.iso_seg_ssl_ca_private_key}"
 
   resource_group_name = "${module.infra.resource_group_name}"
-  dns_zone            = "${module.infra.dns_zone_name}"
 }
+*/
+
