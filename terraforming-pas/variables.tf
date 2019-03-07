@@ -164,3 +164,17 @@ variable "pcf_services_subnet_name" {
 variable "diego-ssh_lb_ipaddress" {
   type = "string"
 }
+
+variable "web-ssh_lb_ipaddress" {
+  type = "string"
+}
+
+
+variable "tcp-ssh_lb_ipaddress" {
+  type = "string"
+}
+
+
+variable "mysql-ssh_lb_ipaddress" {
+  type = "string"
+}

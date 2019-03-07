@@ -63,6 +63,9 @@ module "pas" {
   pcf_monitoring_services_subnet_name = "${var.pcf_monitoring_services_subnet_name}"
   diego-ssh_lb_ipaddress              = "${var.diego-ssh_lb_ipaddress}"
   pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
+  tcp-ssh_lb_ipaddress              = "${var.tcp-ssh_lb_ipaddress}"
+  mysql-ssh_lb_ipaddress              = "${var.mysql-ssh_lb_ipaddress}"
+  web-ssh_lb_ipaddress              = "${var.web-ssh_lb_ipaddress}"
 }
 
 /*
