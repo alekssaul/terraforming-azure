@@ -47,3 +47,7 @@ variable "pcf_vnet_resourcegroup" {
 variable "pcf_pas_subnet_name" {
   type = "string"
 }
+
+variable "pcf_infra_subnet_id" {
+  type = "string"
+}

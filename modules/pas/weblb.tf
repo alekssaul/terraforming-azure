@@ -19,7 +19,7 @@ resource "azurerm_lb" "web" {
     name                          = "frontendip"
     private_ip_address            = "${var.web-ssh_lb_ipaddress}"
     private_ip_address_allocation = "Static"
-    subnet_id = "${data.azurerm_subnet.pas_subnet.id}"
+    subnet_id = "${var.pcf_infra_subnet_id}"
   }
 }
 

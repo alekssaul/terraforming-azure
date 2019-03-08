@@ -49,6 +49,7 @@ module "pas" {
   location = "${var.location}"
 
   pas_subnet_cidr = "${var.pcf_pas_subnet}"
+  pcf_infra_subnet_id ="${module.infra.infrastructure_subnet_id}"
 
   cf_storage_account_name              = "${var.cf_storage_account_name}"
   cf_buildpacks_storage_container_name = "${var.cf_buildpacks_storage_container_name}"
