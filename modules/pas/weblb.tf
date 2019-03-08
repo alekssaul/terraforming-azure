@@ -17,7 +17,7 @@ resource "azurerm_lb" "web" {
 
   frontend_ip_configuration = {
     name                          = "frontendip"
-    private_ip_address            = "${var.web-ssh_lb_ipaddress}"
+    private_ip_address            = "${var.web_lb_ipaddress}"
     private_ip_address_allocation = "Static"
     subnet_id = "${var.pcf_infra_subnet_id}"
   }

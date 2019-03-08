@@ -67,7 +67,7 @@ module "pas" {
   pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
   tcp-ssh_lb_ipaddress              = "${var.tcp-ssh_lb_ipaddress}"
   mysql-ssh_lb_ipaddress              = "${var.mysql-ssh_lb_ipaddress}"
-  web-ssh_lb_ipaddress              = "${var.web-ssh_lb_ipaddress}"
+  web_lb_ipaddress              = "${var.web_lb_ipaddress}"
 }
 
 /*

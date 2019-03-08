@@ -25,7 +25,7 @@ variable "diego-ssh_lb_ipaddress" {
   type = "string"
 }
 
-variable "web-ssh_lb_ipaddress" {
+variable "web_lb_ipaddress" {
   type = "string"
 }
 
