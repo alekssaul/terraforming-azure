@@ -1,7 +1,7 @@
 # ================================= Subnets ====================================
 
 data "azurerm_subnet" "pas_subnet" {
-  name = "${var.pcf_services_subnet_name}"
+  name = "${var.pcf_pas_subnet_name}"
 
   //  depends_on                = ["${var.resource_group_name}"]
   resource_group_name  = "${var.pcf_vnet_resourcegroup}"

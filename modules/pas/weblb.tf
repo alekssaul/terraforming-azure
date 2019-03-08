@@ -1,3 +1,4 @@
+/*
 resource "azurerm_public_ip" "web-lb-public-ip" {
   name                    = "web-lb-public-ip"
   location                = "${var.location}"
@@ -6,6 +7,7 @@ resource "azurerm_public_ip" "web-lb-public-ip" {
   sku                     = "Standard"
   idle_timeout_in_minutes = 30
 }
+*/
 
 resource "azurerm_lb" "web" {
   name                = "${var.env_name}-web-lb"
@@ -16,7 +18,8 @@ resource "azurerm_lb" "web" {
   frontend_ip_configuration = {
     name                          = "frontendip"
     private_ip_address            = "${var.web-ssh_lb_ipaddress}"
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
+    subnet_id = "${data.azurerm_subnet.pas_subnet.id}"
   }
 }
 

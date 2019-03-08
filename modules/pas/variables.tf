@@ -43,3 +43,7 @@ variable "mysql-ssh_lb_ipaddress" {
 variable "pcf_vnet_resourcegroup" {
   default = ""
 }
+
+variable "pcf_pas_subnet_name" {
+  type = "string"
+}

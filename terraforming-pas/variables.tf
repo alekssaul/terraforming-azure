@@ -90,8 +90,6 @@ variable "ops_manager_vm_size" {
   default = "Standard_DS2_v2"
 }
 
-variable "dns_suffix" {}
-
 variable "dns_subdomain" {
   "type"        = "string"
   "description" = "The base subdomain used for PCF. For example, if your dns_subdomain is `cf`, and your dns_suffix is `pivotal.io`, your PCF domain would be `cf.pivotal.io`"
@@ -150,6 +148,9 @@ variable "pcf_vnet_name" {
 }
 
 variable "pcf_vnet_resourcegroup" {
+  type = "string"
+}
+variable "pcf_pas_subnet_name" {
   type = "string"
 }
 

@@ -94,16 +94,8 @@ resource "azurerm_image" "ops_manager_image" {
 
 # ==================== VMs
 
-resource "azurerm_public_ip" "ops_manager_public_ip" {
-  name                = "${var.env_name}-ops-manager-public-ip"
-  location            = "${var.location}"
-  resource_group_name = "${var.resource_group_name}"
-  allocation_method   = "Static"
-}
-
 resource "azurerm_network_interface" "ops_manager_nic" {
   name                      = "${var.env_name}-ops-manager-nic"
-  depends_on                = ["azurerm_public_ip.ops_manager_public_ip"]
   location                  = "${var.location}"
   resource_group_name       = "${var.resource_group_name}"
   network_security_group_id = "${var.security_group_id}"
@@ -112,9 +104,9 @@ resource "azurerm_network_interface" "ops_manager_nic" {
   ip_configuration {
     name                          = "${var.env_name}-ops-manager-ip-config"
     subnet_id                     = "${var.subnet_id}"
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
     private_ip_address            = "${var.ops_manager_private_ip}"
-    public_ip_address_id          = "${azurerm_public_ip.ops_manager_public_ip.id}"
+    //public_ip_address_id          = "${azurerm_public_ip.ops_manager_public_ip.id}"
   }
 }
 
@@ -167,79 +159,10 @@ variable "optional_ops_manager_image_uri" {
   default = ""
 }
 
-resource "azurerm_public_ip" "optional_ops_manager_public_ip" {
-  name                         = "${var.env_name}-optional-ops-manager-public-ip"
-  location                     = "${var.location}"
-  resource_group_name          = "${var.resource_group_name}"
-  public_ip_address_allocation = "static"
-  count                        = "${min(length(split("", var.optional_ops_manager_image_uri)),1)}"
-}
-
-resource "azurerm_network_interface" "optional_ops_manager_nic" {
-  name                      = "${var.env_name}-optional-ops-manager-nic"
-  depends_on                = ["azurerm_public_ip.optional_ops_manager_public_ip"]
-  location                  = "${var.location}"
-  resource_group_name       = "${var.resource_group_name}"
-  count                     = "${min(length(split("", var.optional_ops_manager_image_uri)),1)}"
-  network_security_group_id = "${var.security_group_id}"
-
-  ip_configuration {
-    name                          = "${var.env_name}-optional-ops-manager-ip-config"
-    subnet_id                     = "${var.subnet_id}"
-    private_ip_address_allocation = "static"
-    private_ip_address            = "10.0.8.5"
-    public_ip_address_id          = "${azurerm_public_ip.optional_ops_manager_public_ip.id}"
-  }
-}
-
-resource "azurerm_virtual_machine" "optional_ops_manager_vm" {
-  name                  = "${var.env_name}-optional-ops-manager-vm"
-  depends_on            = ["azurerm_network_interface.optional_ops_manager_nic"]
-  location              = "${var.location}"
-  resource_group_name   = "${var.resource_group_name}"
-  network_interface_ids = ["${azurerm_network_interface.optional_ops_manager_nic.id}"]
-  vm_size               = "${var.ops_manager_vm_size}"
-  count                 = "${min(length(split("", var.optional_ops_manager_image_uri)),1)}"
-
-  storage_image_reference {
-    id = "${azurerm_image.ops_manager_image.id}"
-  }
-
-  storage_os_disk {
-    name              = "optional-opsman-disk"
-    caching           = "ReadWrite"
-    os_type           = "linux"
-    create_option     = "FromImage"
-    disk_size_gb      = "150"
-    managed_disk_type = "Premium_LRS"
-  }
-
-  os_profile {
-    computer_name  = "${var.env_name}-optional-ops-manager"
-    admin_username = "ubuntu"
-  }
-
-  os_profile_linux_config {
-    disable_password_authentication = true
-
-    ssh_keys {
-      path     = "/home/ubuntu/.ssh/authorized_keys"
-      key_data = "${tls_private_key.ops_manager.public_key_openssh}"
-    }
-  }
-}
 
 # ==================== Outputs
 output "ops_manager_private_ip" {
   value = "${var.ops_manager_private_ip}"
-}
-
-output "ops_manager_public_ip" {
-  value = "${azurerm_public_ip.ops_manager_public_ip.ip_address}"
-}
-
-output "optional_ops_manager_public_ip" {
-  value = "${element(concat(azurerm_public_ip.optional_ops_manager_public_ip.*.ip_address, list("")), 0)}"
 }
 
 output "ops_manager_ssh_public_key" {

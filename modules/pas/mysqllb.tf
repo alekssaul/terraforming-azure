@@ -7,7 +7,8 @@ resource "azurerm_lb" "mysql" {
   frontend_ip_configuration = {
     name                          = "frontendip"
     private_ip_address            = "${var.mysql-ssh_lb_ipaddress}"
-    private_ip_address_allocation = "static"
+    private_ip_address_allocation = "Static"
+    subnet_id = "${data.azurerm_subnet.pas_subnet.id}"
   }
 }
 
