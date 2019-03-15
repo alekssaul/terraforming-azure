@@ -8,8 +8,6 @@ variable "subscription_id" {}
 
 variable "tenant_id" {}
 
-variable "dns_suffix" {}
-
 variable "env_name" {}
 
 variable "location" {}
@@ -70,4 +68,16 @@ variable "postgres_username" {
 
 variable "external_db" {
   default = false
+}
+
+variable "pcf_infrastructure_subnet_name" {
+  type = "string"
+}
+
+variable "pcf_vnet_name" {
+  type = "string"
+}
+
+variable "pcf_vnet_resourcegroup" {
+  default = ""
 }

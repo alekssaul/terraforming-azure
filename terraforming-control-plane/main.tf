@@ -17,10 +17,11 @@ module "infra" {
 
   env_name                          = "${var.env_name}"
   location                          = "${var.location}"
-  dns_subdomain                     = "${var.dns_subdomain}"
-  dns_suffix                        = "${var.dns_suffix}"
   pcf_infrastructure_subnet         = "${var.pcf_infrastructure_subnet}"
   pcf_virtual_network_address_space = "${var.pcf_virtual_network_address_space}"
+  pcf_vnet_name                     = "${var.pcf_vnet_name}"
+  pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
+  pcf_infrastructure_subnet_name    = "${var.pcf_infrastructure_subnet_name}"
 }
 
 module "ops_manager" {
@@ -37,7 +38,6 @@ module "ops_manager" {
   optional_ops_manager_image_uri = "${var.optional_ops_manager_image_uri}"
 
   resource_group_name = "${module.infra.resource_group_name}"
-  dns_zone_name       = "${module.infra.dns_zone_name}"
   security_group_id   = "${module.infra.security_group_id}"
   subnet_id           = "${module.infra.infrastructure_subnet_id}"
 }
@@ -47,7 +47,6 @@ module "control_plane" {
 
   resource_group_name = "${module.infra.resource_group_name}"
   env_name            = "${var.env_name}"
-  dns_zone_name       = "${module.infra.dns_zone_name}"
   cidr                = "${var.plane_cidr}"
   network_name        = "${module.infra.network_name}"
 

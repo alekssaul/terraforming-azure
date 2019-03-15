@@ -1,5 +1,4 @@
 variable "cidr" {}
-variable "dns_zone_name" {}
 variable "env_name" {}
 variable "external_db" {}
 variable "location" {}

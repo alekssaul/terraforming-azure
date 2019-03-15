@@ -22,18 +22,6 @@ output "client_secret" {
   value     = "${var.client_secret}"
 }
 
-output "ops_manager_dns" {
-  value = "${module.ops_manager.dns_name}"
-}
-
-output "optional_ops_manager_dns" {
-  value = "${module.ops_manager.optional_dns_name}"
-}
-
-output "env_dns_zone_name_servers" {
-  value = "${module.infra.dns_zone_name_servers}"
-}
-
 output "network_name" {
   value = "${module.infra.network_name}"
 }
@@ -80,18 +68,6 @@ output "ops_manager_ssh_private_key" {
   value     = "${module.ops_manager.ops_manager_ssh_private_key}"
 }
 
-output "ops_manager_public_ip" {
-  value = "${module.ops_manager.ops_manager_public_ip}"
-}
-
-output "ops_manager_ip" {
-  value = "${module.ops_manager.ops_manager_public_ip}"
-}
-
-output "optional_ops_manager_public_ip" {
-  value = "${module.ops_manager.optional_ops_manager_public_ip}"
-}
-
 output "ops_manager_private_ip" {
   value = "${module.ops_manager.ops_manager_private_ip}"
 }
@@ -100,10 +76,6 @@ output "ops_manager_private_ip" {
 
 output "control_plane_subnet_cidr" {
   value = "${module.control_plane.cidr}"
-}
-
-output "control_plane_subnet_name" {
-  value = "${module.control_plane.network_name}"
 }
 
 output "control_plane_subnet_gateway" {
@@ -125,8 +97,4 @@ output "control_plane_lb_name" {
 
 output "control_plane_db_username" {
   value = "${var.external_db > 0 ? module.control_plane.postgres_username : ""}"
-}
-
-output "control_plane_domain" {
-  value = "${module.control_plane.dns_name}"
 }
