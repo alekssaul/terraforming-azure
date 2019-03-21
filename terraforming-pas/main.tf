@@ -48,8 +48,8 @@ module "pas" {
   env_name = "${var.env_name}"
   location = "${var.location}"
 
-  pas_subnet_cidr = "${var.pcf_pas_subnet}"
-  pcf_infra_subnet_id ="${module.infra.infrastructure_subnet_id}"
+  pas_subnet_cidr     = "${var.pcf_pas_subnet}"
+  pcf_infra_subnet_id = "${module.infra.infrastructure_subnet_id}"
 
   cf_storage_account_name              = "${var.cf_storage_account_name}"
   cf_buildpacks_storage_container_name = "${var.cf_buildpacks_storage_container_name}"
@@ -61,13 +61,13 @@ module "pas" {
   network_name                        = "${module.infra.network_name}"
   bosh_deployed_vms_security_group_id = "${module.infra.bosh_deployed_vms_security_group_id}"
   pcf_services_subnet_name            = "${var.pcf_services_subnet_name}"
-  pcf_pas_subnet_name = "${var.pcf_pas_subnet_name}"
+  pcf_pas_subnet_name                 = "${var.pcf_pas_subnet_name}"
   pcf_monitoring_services_subnet_name = "${var.pcf_monitoring_services_subnet_name}"
   diego-ssh_lb_ipaddress              = "${var.diego-ssh_lb_ipaddress}"
-  pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
-  tcp-ssh_lb_ipaddress              = "${var.tcp-ssh_lb_ipaddress}"
+  pcf_vnet_resourcegroup              = "${var.pcf_vnet_resourcegroup}"
+  tcp-ssh_lb_ipaddress                = "${var.tcp-ssh_lb_ipaddress}"
   mysql-ssh_lb_ipaddress              = "${var.mysql-ssh_lb_ipaddress}"
-  web_lb_ipaddress              = "${var.web_lb_ipaddress}"
+  web_lb_ipaddress                    = "${var.web_lb_ipaddress}"
 }
 
 /*

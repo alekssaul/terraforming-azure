@@ -157,7 +157,6 @@ output "ops_manager_ssh_private_key" {
   value     = "${module.ops_manager.ops_manager_ssh_private_key}"
 }
 
-
 output "ops_manager_private_ip" {
   value = "${module.ops_manager.ops_manager_private_ip}"
 }

@@ -106,6 +106,7 @@ resource "azurerm_network_interface" "ops_manager_nic" {
     subnet_id                     = "${var.subnet_id}"
     private_ip_address_allocation = "Static"
     private_ip_address            = "${var.ops_manager_private_ip}"
+
     //public_ip_address_id          = "${azurerm_public_ip.ops_manager_public_ip.id}"
   }
 }
@@ -158,7 +159,6 @@ resource "tls_private_key" "ops_manager" {
 variable "optional_ops_manager_image_uri" {
   default = ""
 }
-
 
 # ==================== Outputs
 output "ops_manager_private_ip" {

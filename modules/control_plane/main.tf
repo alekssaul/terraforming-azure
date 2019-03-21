@@ -75,7 +75,7 @@ resource "azurerm_network_security_group" "plane" {
 }
 
 resource "azurerm_network_security_rule" "plane" {
-  resource_group_name = "${var.resource_group_name}"
+  resource_group_name         = "${var.resource_group_name}"
   network_security_group_name = "${azurerm_network_security_group.plane.name}"
 
   name                       = "${local.name_prefix}-security-group-rule"

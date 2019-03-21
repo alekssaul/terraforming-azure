@@ -150,6 +150,7 @@ variable "pcf_vnet_name" {
 variable "pcf_vnet_resourcegroup" {
   type = "string"
 }
+
 variable "pcf_pas_subnet_name" {
   type = "string"
 }
@@ -170,11 +171,9 @@ variable "web_lb_ipaddress" {
   type = "string"
 }
 
-
 variable "tcp-ssh_lb_ipaddress" {
   type = "string"
 }
-
 
 variable "mysql-ssh_lb_ipaddress" {
   type = "string"
