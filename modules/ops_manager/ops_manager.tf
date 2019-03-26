@@ -61,6 +61,10 @@ resource "azurerm_storage_account" "ops_manager_storage_account" {
   account_tier             = "Premium"
   account_replication_type = "LRS"
 
+  network_rules {
+    virtual_network_subnet_ids = ["${var.subnet_id}"]
+  }
+
   tags = "${merge(map(
     "environment", var.env_name,
      "account_for", "ops-manager"),

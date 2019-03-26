@@ -11,6 +11,10 @@ resource "azurerm_storage_account" "bosh_root_storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
+  network_rules {
+    virtual_network_subnet_ids = ["${var.pcf_infrastructure_subnet_name}"]
+  }
+
   tags = "${merge(map(
     "environment", var.env_name,
      "account_for", "bosh"),
