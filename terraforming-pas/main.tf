@@ -23,6 +23,7 @@ module "infra" {
   pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
   pcf_infrastructure_subnet_name    = "${var.pcf_infrastructure_subnet_name}"
   azure_resource_tags               = "${var.azure_resource_tags}"
+  resourcegroup_name                = "${var.resourcegroup_name}"
 }
 
 module "ops_manager" {

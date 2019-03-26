@@ -27,9 +27,20 @@ variable "pcf_infrastructure_subnet_name" {
   default = ""
 }
 
+variable "resourcegroup_name" {
+  type        = "string"
+  default     = ""
+  description = "ResourceGroup Name"
+}
+
 resource "azurerm_resource_group" "pcf_resource_group" {
+  count    = "${var.resourcegroup_name == "" ? 0 : 1}"
   name     = "${var.env_name}"
   location = "${var.location}"
+}
+
+data "azurerm_resource_group" "pcf_resource_group" {
+  name = "${var.resourcegroup_name == "" ? var.env_name : var.resourcegroup_name }"
 }
 
 variable "azure_resource_tags" {
@@ -43,7 +54,7 @@ variable "azure_resource_tags" {
 resource "azurerm_network_security_group" "ops_manager_security_group" {
   name                = "${var.env_name}-ops-manager-security-group"
   location            = "${var.location}"
-  resource_group_name = "${azurerm_resource_group.pcf_resource_group.name}"
+  resource_group_name = "${data.azurerm_resource_group.pcf_resource_group.name}"
 
   security_rule {
     name                       = "ssh"
@@ -85,7 +96,7 @@ resource "azurerm_network_security_group" "ops_manager_security_group" {
 resource "azurerm_network_security_group" "bosh_deployed_vms_security_group" {
   name                = "${var.env_name}-bosh-deployed-vms-security-group"
   location            = "${var.location}"
-  resource_group_name = "${azurerm_resource_group.pcf_resource_group.name}"
+  resource_group_name = "${data.azurerm_resource_group.pcf_resource_group.name}"
 
   security_rule {
     name                       = "internal-anything"
@@ -239,8 +250,8 @@ resource "azurerm_network_security_group" "bosh_deployed_vms_security_group" {
 /*
 resource "azurerm_virtual_network" "pcf_virtual_network" {
   name                = "${var.env_name}-virtual-network"
-  depends_on          = ["azurerm_resource_group.pcf_resource_group"]
-  resource_group_name = "${azurerm_resource_group.pcf_resource_group.name}"
+  depends_on          = ["data.azurerm_resource_group.pcf_resource_group"]
+  resource_group_name = "${data.azurerm_resource_group.pcf_resource_group.name}"
   address_space       = "${var.pcf_virtual_network_address_space}"
   location            = "${var.location}"
 }
@@ -269,7 +280,7 @@ locals {
 }
 
 output "resource_group_name" {
-  value = "${azurerm_resource_group.pcf_resource_group.name}"
+  value = "${data.azurerm_resource_group.pcf_resource_group.name}"
 }
 
 output "network_name" {

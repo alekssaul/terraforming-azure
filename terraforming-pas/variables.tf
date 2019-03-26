@@ -184,3 +184,9 @@ variable "azure_resource_tags" {
   description = "Tags that apply to all the Azure Resources"
   default     = {}
 }
+
+variable "resourcegroup_name" {
+  type        = "string"
+  default     = ""
+  description = "ResourceGroup Name"
+}
