@@ -11,10 +11,11 @@ resource "azurerm_storage_account" "bosh_root_storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  tags = {
-    environment = "${var.env_name}"
-    account_for = "bosh"
-  }
+  tags = "${merge(map(
+    "environment", var.env_name,
+     "account_for", "bosh"),
+     var.azure_resource_tags
+    )}"
 }
 
 resource "azurerm_storage_container" "bosh_storage_container" {

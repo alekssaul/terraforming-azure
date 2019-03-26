@@ -32,6 +32,12 @@ resource "azurerm_resource_group" "pcf_resource_group" {
   location = "${var.location}"
 }
 
+variable "azure_resource_tags" {
+  type        = "map"
+  description = "Tags that apply to all the Azure Resources"
+  default     = {}
+}
+
 # ============== Security Groups ===============
 
 resource "azurerm_network_security_group" "ops_manager_security_group" {

@@ -46,6 +46,12 @@ resource random_string "ops_manager_storage_account_name" {
   upper   = false
 }
 
+variable "azure_resource_tags" {
+  type        = "map"
+  description = "Tags that apply to all the Azure Resources"
+  default     = {}
+}
+
 # ==================== Storage
 
 resource "azurerm_storage_account" "ops_manager_storage_account" {
@@ -55,10 +61,11 @@ resource "azurerm_storage_account" "ops_manager_storage_account" {
   account_tier             = "Premium"
   account_replication_type = "LRS"
 
-  tags = {
-    environment = "${var.env_name}"
-    account_for = "ops-manager"
-  }
+  tags = "${merge(map(
+    "environment", var.env_name,
+     "account_for", "ops-manager"),
+     var.azure_resource_tags
+    )}"
 }
 
 resource "azurerm_storage_container" "ops_manager_storage_container" {

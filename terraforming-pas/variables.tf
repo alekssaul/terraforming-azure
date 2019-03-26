@@ -178,3 +178,9 @@ variable "tcp-ssh_lb_ipaddress" {
 variable "mysql-ssh_lb_ipaddress" {
   type = "string"
 }
+
+variable "azure_resource_tags" {
+  type        = "map"
+  description = "Tags that apply to all the Azure Resources"
+  default     = {}
+}

@@ -13,10 +13,11 @@ resource "azurerm_storage_account" "cf_storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
-  tags = {
-    environment = "${var.env_name}"
-    account_for = "cloud-foundry-blobstore"
-  }
+  tags = "${merge(map(
+    "environment", var.env_name,
+     "account_for", "cloud-foundry-blobstore"),
+     var.azure_resource_tags
+    )}"
 }
 
 resource "azurerm_storage_container" "cf_buildpacks_storage_container" {

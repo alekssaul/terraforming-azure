@@ -48,3 +48,9 @@ variable "pcf_pas_subnet_name" {
 variable "pcf_infra_subnet_id" {
   type = "string"
 }
+
+variable "azure_resource_tags" {
+  type        = "map"
+  description = "Tags that apply to all the Azure Resources"
+  default     = {}
+}
