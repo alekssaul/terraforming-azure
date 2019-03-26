@@ -13,6 +13,10 @@ resource "azurerm_storage_account" "cf_storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
+  network_rules {
+    virtual_network_subnet_ids = ["${data.azurerm_subnet.pas_subnet.id}"]
+  }
+
   tags = "${merge(map(
     "environment", var.env_name,
      "account_for", "cloud-foundry-blobstore"),
