@@ -27,15 +27,21 @@ variable "pcf_infrastructure_subnet_name" {
   default = ""
 }
 
-resource "azurerm_resource_group" "pcf_resource_group" {
-  name     = "${var.env_name}"
-  location = "${var.location}"
-}
-
 variable "azure_resource_tags" {
   type        = "map"
   description = "Tags that apply to all the Azure Resources"
   default     = {}
+}
+
+# ============== ResourceGroups ===============
+resource "azurerm_resource_group" "pcf_resource_group" {
+  name     = "${var.env_name}"
+  location = "${var.location}"
+
+  tags = "${merge(map(
+    "environment", var.env_name),
+     var.azure_resource_tags
+    )}"
 }
 
 # ============== Security Groups ===============
