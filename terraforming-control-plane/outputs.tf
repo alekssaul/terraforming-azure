@@ -22,17 +22,17 @@ output "client_secret" {
   value     = "${var.client_secret}"
 }
 
-output "ops_manager_dns" {
-  value = "${module.ops_manager.dns_name}"
-}
+# output "ops_manager_dns" {
+#   value = "${module.ops_manager.dns_name}"
+# }
 
-output "optional_ops_manager_dns" {
-  value = "${module.ops_manager.optional_dns_name}"
-}
+# output "optional_ops_manager_dns" {
+#   value = "${module.ops_manager.optional_dns_name}"
+# }
 
-output "env_dns_zone_name_servers" {
-  value = "${module.infra.dns_zone_name_servers}"
-}
+# output "env_dns_zone_name_servers" {
+#   value = "${module.infra.dns_zone_name_servers}"
+# }
 
 output "network_name" {
   value = "${module.infra.network_name}"
@@ -80,17 +80,17 @@ output "ops_manager_ssh_private_key" {
   value     = "${module.ops_manager.ops_manager_ssh_private_key}"
 }
 
-output "ops_manager_public_ip" {
-  value = "${module.ops_manager.ops_manager_public_ip}"
-}
+# output "ops_manager_public_ip" {
+#   value = "${module.ops_manager.ops_manager_public_ip}"
+# }
 
 output "ops_manager_ip" {
-  value = "${module.ops_manager.ops_manager_public_ip}"
+  value = "${module.ops_manager.ops_manager_private_ip}"
 }
 
-output "optional_ops_manager_public_ip" {
-  value = "${module.ops_manager.optional_ops_manager_public_ip}"
-}
+# output "optional_ops_manager_public_ip" {
+#   value = "${module.ops_manager.optional_ops_manager_public_ip}"
+# }
 
 output "ops_manager_private_ip" {
   value = "${module.ops_manager.ops_manager_private_ip}"
