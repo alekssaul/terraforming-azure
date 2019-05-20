@@ -8,8 +8,6 @@ variable "subscription_id" {}
 
 variable "tenant_id" {}
 
-variable "dns_suffix" {}
-
 variable "env_name" {}
 
 variable "location" {}

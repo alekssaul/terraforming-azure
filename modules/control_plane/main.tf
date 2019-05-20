@@ -3,16 +3,6 @@ locals {
   web_ports   = [80, 443, 8443, 8844, 2222]
 }
 
-# DNS
-
-resource "azurerm_dns_a_record" "plane" {
-  resource_group_name = "${var.resource_group_name}"
-  name                = "plane"
-  zone_name           = "${var.dns_zone_name}"
-  ttl                 = "60"
-  records             = ["${azurerm_public_ip.plane.ip_address}"]
-}
-
 # Load Balancers
 
 resource "azurerm_public_ip" "plane" {

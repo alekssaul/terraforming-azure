@@ -18,10 +18,6 @@ output "plane_lb_name" {
   value = "${azurerm_lb.plane.name}"
 }
 
-output "dns_name" {
-  value = "${azurerm_dns_a_record.plane.name}.${azurerm_dns_a_record.plane.zone_name}"
-}
-
 output "network_name" {
   value = "${azurerm_subnet.plane.name}"
 }

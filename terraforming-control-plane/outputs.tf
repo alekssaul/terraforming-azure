@@ -126,7 +126,3 @@ output "control_plane_lb_name" {
 output "control_plane_db_username" {
   value = "${var.external_db > 0 ? module.control_plane.postgres_username : ""}"
 }
-
-output "control_plane_domain" {
-  value = "${module.control_plane.dns_name}"
-}
