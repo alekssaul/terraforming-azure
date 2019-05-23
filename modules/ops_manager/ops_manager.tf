@@ -60,7 +60,8 @@ resource "azurerm_storage_account" "ops_manager_storage_account" {
   location                 = "${var.location}"
   account_tier             = "Premium"
   account_replication_type = "LRS"
-
+  enable_https_traffic_only = true
+  
   network_rules {
     virtual_network_subnet_ids = ["${var.subnet_id}"]
   }

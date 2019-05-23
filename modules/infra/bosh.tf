@@ -10,6 +10,7 @@ resource "azurerm_storage_account" "bosh_root_storage_account" {
   location                 = "${var.location}"
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  enable_https_traffic_only = true
 
   network_rules {
     virtual_network_subnet_ids = ["${data.azurerm_subnet.infrastructure_subnet.id}"]
