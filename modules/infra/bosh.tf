@@ -12,7 +12,7 @@ resource "azurerm_storage_account" "bosh_root_storage_account" {
   account_replication_type = "LRS"
 
   network_rules {
-    virtual_network_subnet_ids = ["${var.pcf_infrastructure_subnet_name}"]
+    virtual_network_subnet_ids = ["${data.azurerm_virtual_network.infrastructure_subnet.id}"]
   }
 
   tags = "${merge(map(
