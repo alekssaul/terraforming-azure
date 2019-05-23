@@ -20,3 +20,9 @@ variable "azure_resource_tags" {
   description = "Tags that apply to all the Azure Resources"
   default     = {}
 }
+
+variable "sa_jumpbox_subnetname" {
+  type        = "string"
+  description = "Subnet Setting this to a variable enables StorageAccount Network ACLs"
+  default     = ""
+}
