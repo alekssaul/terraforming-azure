@@ -52,6 +52,12 @@ variable "azure_resource_tags" {
   default     = {}
 }
 
+variable "sa_jumpbox_subnetid" {
+  type        = "string"
+  description = "Subnet ID of VM executing Terraform. Setting this to a variable enables StorageAccount Network ACLs"
+  default     = ""
+}
+
 # ==================== Storage
 
 resource "azurerm_storage_account" "ops_manager_storage_account" {

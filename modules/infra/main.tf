@@ -314,6 +314,12 @@ output "bosh_deployed_vms_security_group_name" {
   value = "${azurerm_network_security_group.bosh_deployed_vms_security_group.name}"
 }
 
+variable "sa_jumpbox_subnetid" {
+  type        = "string"
+  description = "Subnet ID of VM executing Terraform. Setting this to a variable enables StorageAccount Network ACLs"
+  default     = ""
+}
+
 # Deprecated
 
 output "infrastructure_subnet_cidrs" {
