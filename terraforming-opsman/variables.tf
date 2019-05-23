@@ -69,3 +69,9 @@ variable "postgres_username" {
 variable "external_db" {
   default = false
 }
+
+variable "sa_jumpbox_subnetid" {
+  type        = "string"
+  description = "Subnet ID of VM executing Terraform. Setting this to a variable enables StorageAccount Network ACLs"
+  default     = ""
+}
