@@ -24,4 +24,3 @@ module "infra" {
   pcf_infrastructure_subnet_name    = "${var.pcf_infrastructure_subnet_name}"
   azure_resource_tags               = "${var.azure_resource_tags}"
 }
-

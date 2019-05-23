@@ -7,15 +7,22 @@ resource random_string "cf_storage_account_name" {
 }
 
 resource "azurerm_storage_account" "cf_storage_account" {
-  name                     = "${random_string.cf_storage_account_name.result}"
-  resource_group_name      = "${var.resource_group_name}"
-  location                 = "${var.location}"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+  name                      = "${random_string.cf_storage_account_name.result}"
+  resource_group_name       = "${var.resource_group_name}"
+  location                  = "${var.location}"
+  account_tier              = "Standard"
+  account_replication_type  = "LRS"
   enable_https_traffic_only = true
-  
+
   network_rules {
     virtual_network_subnet_ids = ["${data.azurerm_subnet.pas_subnet.id}"]
+  }
+
+  network_rules {
+    virtual_network_subnet_ids = "${compact(
+      "${var.sa_jumpbox_subnetid == "" ? "" : "data.azurerm_subnet.pas_subnet.id" }",
+      "${var.sa_jumpbox_subnetid == "" ? "" : var.sa_jumpbox_subnetid }"
+    )}"
   }
 
   tags = "${merge(map(

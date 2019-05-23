@@ -56,7 +56,6 @@ output "bosh_root_storage_account" {
   value = "${module.infra.bosh_root_storage_account}"
 }
 
-
 output "management_subnet_name" {
   value = "${module.infra.infrastructure_subnet_name}"
 }

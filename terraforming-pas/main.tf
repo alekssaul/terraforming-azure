@@ -71,6 +71,7 @@ module "pas" {
   mysql-ssh_lb_ipaddress              = "${var.mysql-ssh_lb_ipaddress}"
   web_lb_ipaddress                    = "${var.web_lb_ipaddress}"
   azure_resource_tags                 = "${var.azure_resource_tags}"
+  sa_jumpbox_subnetid                 = "${var.sa_jumpbox_subnetid}"
 }
 
 /*

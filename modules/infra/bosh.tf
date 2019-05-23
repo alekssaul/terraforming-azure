@@ -5,15 +5,18 @@ resource random_string "bosh_storage_account_name" {
 }
 
 resource "azurerm_storage_account" "bosh_root_storage_account" {
-  name                     = "${random_string.bosh_storage_account_name.result}"
-  resource_group_name      = "${azurerm_resource_group.pcf_resource_group.name}"
-  location                 = "${var.location}"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+  name                      = "${random_string.bosh_storage_account_name.result}"
+  resource_group_name       = "${azurerm_resource_group.pcf_resource_group.name}"
+  location                  = "${var.location}"
+  account_tier              = "Standard"
+  account_replication_type  = "LRS"
   enable_https_traffic_only = true
 
   network_rules {
-    virtual_network_subnet_ids = ["${data.azurerm_subnet.infrastructure_subnet.id}"]
+    virtual_network_subnet_ids = "${compact(
+      "${var.sa_jumpbox_subnetid == "" ? "" : "data.azurerm_subnet.infrastructure_subnet.id" }",
+      "${var.sa_jumpbox_subnetid == "" ? "" : var.sa_jumpbox_subnetid }"
+    )}"
   }
 
   tags = "${merge(map(
