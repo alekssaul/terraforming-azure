@@ -95,34 +95,3 @@ output "ops_manager_ip" {
 output "ops_manager_private_ip" {
   value = "${module.ops_manager.ops_manager_private_ip}"
 }
-
-# Control Plane ==========================================================================
-
-output "control_plane_subnet_cidr" {
-  value = "${module.control_plane.cidr}"
-}
-
-output "control_plane_subnet_name" {
-  value = "${module.control_plane.network_name}"
-}
-
-output "control_plane_subnet_gateway" {
-  value = "${module.control_plane.subnet_gateway}"
-}
-
-output "control_plane_db_password" {
-  sensitive = true
-  value     = "${var.external_db > 0 ? module.control_plane.postgres_password : "" }"
-}
-
-output "control_plane_fqdn" {
-  value = "${module.control_plane.postgres_fqdn}"
-}
-
-output "control_plane_lb_name" {
-  value = "${module.control_plane.plane_lb_name}"
-}
-
-output "control_plane_db_username" {
-  value = "${var.external_db > 0 ? module.control_plane.postgres_username : ""}"
-}
