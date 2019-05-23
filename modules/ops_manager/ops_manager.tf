@@ -69,10 +69,10 @@ resource "azurerm_storage_account" "ops_manager_storage_account" {
   enable_https_traffic_only = true
 
   network_rules {
-    virtual_network_subnet_ids = "${compact(
-      "${var.sa_jumpbox_subnetid == "" ? "" : "var.subnet_id" }",
-      "${var.sa_jumpbox_subnetid == "" ? "" : var.sa_jumpbox_subnetid }"
-    )}"
+    virtual_network_subnet_ids = [
+      "${var.sa_jumpbox_subnetid == "" ? "" : var.subnet_id }",
+      "${var.sa_jumpbox_subnetid == "" ? "" : var.sa_jumpbox_subnetid }",
+    ]
   }
 
   tags = "${merge(map(
