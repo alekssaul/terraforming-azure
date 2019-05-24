@@ -5,12 +5,12 @@ locals {
 
 # Load Balancers
 
-resource "azurerm_public_ip" "plane" {
-  resource_group_name = "${var.resource_group_name}"
-  name                = "${local.name_prefix}-ip"
-  location            = "${var.location}"
-  allocation_method   = "Static"
-}
+# resource "azurerm_public_ip" "plane" {
+#   resource_group_name = "${var.resource_group_name}"
+#   name                = "${local.name_prefix}-ip"
+#   location            = "${var.location}"
+#   allocation_method   = "Static"
+# }
 
 resource "azurerm_lb" "plane" {
   resource_group_name = "${var.resource_group_name}"
@@ -19,9 +19,12 @@ resource "azurerm_lb" "plane" {
 
   frontend_ip_configuration {
     name                 = "${local.name_prefix}-ip"
-    public_ip_address_id = "${azurerm_public_ip.plane.id}"
+    private_ip_address            = "${var.cp_lb_ipaddress}"
+    private_ip_address_allocation = "Static"
+    subnet_id                     = "${var.pcf_infra_subnet_id}"
   }
 }
+
 
 resource "azurerm_lb_backend_address_pool" "plane" {
   resource_group_name = "${var.resource_group_name}"
@@ -52,7 +55,7 @@ resource "azurerm_lb_rule" "plane" {
   frontend_port                  = "${element(local.web_ports, count.index)}"
   backend_port                   = "${element(local.web_ports, count.index)}"
   backend_address_pool_id        = "${azurerm_lb_backend_address_pool.plane.id}"
-  frontend_ip_configuration_name = "${azurerm_public_ip.plane.name}"
+  frontend_ip_configuration_name = "frontend-ip"
   probe_id                       = "${element(azurerm_lb_probe.plane.*.id, count.index)}"
 }
 

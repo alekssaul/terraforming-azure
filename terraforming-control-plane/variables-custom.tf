@@ -20,3 +20,15 @@ variable "azure_resource_tags" {
   description = "Tags that apply to all the Azure Resources"
   default     = {}
 }
+
+variable "sa_jumpbox_subnetid" {
+  type        = "string"
+  description = "Subnet ID of VM executing Terraform. Setting this to a variable enables StorageAccount Network ACLs"
+  default     = ""
+}
+
+variable "cp_lb_ipaddress" {
+  type        = "string"
+  description = "Static IP address for Control Plane LB"
+  default     = ""
+}

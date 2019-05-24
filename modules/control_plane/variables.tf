@@ -5,3 +5,5 @@ variable "location" {}
 variable "resource_group_name" {}
 variable "network_name" {}
 variable "postgres_username" {}
+variable "pcf_infra_subnet_id" {}
+variable "cp_lb_ipaddress" {}
