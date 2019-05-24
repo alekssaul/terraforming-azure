@@ -55,7 +55,7 @@ resource "azurerm_lb_rule" "plane" {
   frontend_port                  = "${element(local.web_ports, count.index)}"
   backend_port                   = "${element(local.web_ports, count.index)}"
   backend_address_pool_id        = "${azurerm_lb_backend_address_pool.plane.id}"
-  frontend_ip_configuration_name = "frontend-ip"
+  frontend_ip_configuration_name = "${local.name_prefix}-ip"
   probe_id                       = "${element(azurerm_lb_probe.plane.*.id, count.index)}"
 }
 
