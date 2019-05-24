@@ -19,7 +19,7 @@ output "plane_lb_name" {
 }
 
 output "network_name" {
-  value = "${azurerm_subnet.plane.name}"
+  value = "${data.azurerm_subnet.plane.name}"
 }
 
 output "subnet_gateway" {
