@@ -18,13 +18,12 @@ resource "azurerm_lb" "plane" {
   location            = "${var.location}"
 
   frontend_ip_configuration {
-    name                 = "${local.name_prefix}-ip"
+    name                          = "${local.name_prefix}-ip"
     private_ip_address            = "${var.cp_lb_ipaddress}"
     private_ip_address_allocation = "Static"
     subnet_id                     = "${var.pcf_infra_subnet_id}"
   }
 }
-
 
 resource "azurerm_lb_backend_address_pool" "plane" {
   resource_group_name = "${var.resource_group_name}"
@@ -84,11 +83,10 @@ resource "azurerm_network_security_rule" "plane" {
 
 # Network
 
-resource "azurerm_subnet" "plane" {
-  name                 = "${local.name_prefix}-subnet"
-  resource_group_name  = "${var.resource_group_name}"
+data "azurerm_subnet" "plane" {
+  name                 = "${var.pcf_infrastructure_subnet_name}"
+  resource_group_name  = "${var.pcf_vnet_resourcegroup}"
   virtual_network_name = "${var.network_name}"
-  address_prefix       = "${var.cidr}"
 }
 
 # Database

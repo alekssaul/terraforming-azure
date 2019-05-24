@@ -56,8 +56,10 @@ module "control_plane" {
 
   postgres_username = "${var.postgres_username}"
 
-  location            = "${var.location}"
-  external_db         = "${var.external_db}"
-  cp_lb_ipaddress     = "${var.cp_lb_ipaddress}"
-  pcf_infra_subnet_id = "${module.infra.infrastructure_subnet_id}"
+  location                       = "${var.location}"
+  external_db                    = "${var.external_db}"
+  cp_lb_ipaddress                = "${var.cp_lb_ipaddress}"
+  pcf_infra_subnet_id            = "${module.infra.infrastructure_subnet_id}"
+  pcf_infrastructure_subnet_name = "${var.pcf_infrastructure_subnet_name}"
+  pcf_vnet_resourcegroup         = "${var.pcf_vnet_resourcegroup}"
 }
