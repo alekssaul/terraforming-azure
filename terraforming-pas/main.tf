@@ -23,6 +23,8 @@ module "infra" {
   pcf_vnet_resourcegroup            = "${var.pcf_vnet_resourcegroup}"
   pcf_infrastructure_subnet_name    = "${var.pcf_infrastructure_subnet_name}"
   azure_resource_tags               = "${var.azure_resource_tags}"
+  sa_jumpbox_subnetid                 = "${var.sa_jumpbox_subnetid}"
+
 }
 
 module "ops_manager" {
@@ -42,6 +44,7 @@ module "ops_manager" {
   security_group_id   = "${module.infra.security_group_id}"
   subnet_id           = "${module.infra.infrastructure_subnet_id}"
   azure_resource_tags = "${var.azure_resource_tags}"
+  sa_jumpbox_subnetid                 = "${var.sa_jumpbox_subnetid}"
 }
 
 module "pas" {

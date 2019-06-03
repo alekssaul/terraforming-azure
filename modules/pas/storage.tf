@@ -15,14 +15,10 @@ resource "azurerm_storage_account" "cf_storage_account" {
   enable_https_traffic_only = true
 
   network_rules {
-    virtual_network_subnet_ids = ["${data.azurerm_subnet.pas_subnet.id}"]
-  }
-
-  network_rules {
-    virtual_network_subnet_ids = "${compact(
-      "${var.sa_jumpbox_subnetid == "" ? "" : "data.azurerm_subnet.pas_subnet.id" }",
-      "${var.sa_jumpbox_subnetid == "" ? "" : var.sa_jumpbox_subnetid }"
-    )}"
+    virtual_network_subnet_ids = [
+      "${var.sa_jumpbox_subnetid == "" ? "" : data.azurerm_subnet.pas_subnet.id }",
+      "${var.sa_jumpbox_subnetid == "" ? "" : var.sa_jumpbox_subnetid }",
+    ]
   }
 
   tags = "${merge(map(
