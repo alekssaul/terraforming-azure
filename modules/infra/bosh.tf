@@ -42,3 +42,9 @@ resource "azurerm_storage_table" "stemcells_storage_table" {
 output "bosh_root_storage_account" {
   value = "${azurerm_storage_account.bosh_root_storage_account.name}"
 }
+
+output "bosh_root_storage_account_access_key" {
+  value = "${azurerm_storage_account.bosh_root_storage_account.primary_access_key}"
+  sensitive = true
+}
+

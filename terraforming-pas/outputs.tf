@@ -144,8 +144,16 @@ output "bosh_root_storage_account" {
   value = "${module.infra.bosh_root_storage_account}"
 }
 
+output "bosh_root_storage_account_access_key" {
+  value = "${module.infra.bosh_root_storage_account_access_key}"
+}
+
 output "ops_manager_storage_account" {
   value = "${module.ops_manager.ops_manager_storage_account}"
+}
+
+output "ops_manager_storage_account_access_key" {
+  value = "${module.ops_manager.ops_manager_storage_account_access_key}"
 }
 
 output "cf_storage_account_name" {
