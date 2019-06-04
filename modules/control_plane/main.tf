@@ -1,6 +1,8 @@
 locals {
-  name_prefix = "${var.env_name}-plane"
-  web_ports   = [80, 443, 8443, 8844, 2222]
+  name_prefix   = "${var.env_name}-plane"
+  web_ports     = [80, 443, 2222]
+  uaa_ports     = [8443]
+  credhub_ports = [8844]
 }
 
 # Load Balancers
@@ -25,10 +27,48 @@ resource "azurerm_lb" "plane" {
   }
 }
 
+resource "azurerm_lb" "plane-uaa" {
+  resource_group_name = "${var.resource_group_name}"
+  name                = "${var.env_name}-uaa-lb"
+  location            = "${var.location}"
+
+  frontend_ip_configuration {
+    name                          = "${local.name_prefix}-uaa-ip"
+    private_ip_address            = "${var.cp_uaa_lb_ipaddress}"
+    private_ip_address_allocation = "Static"
+    subnet_id                     = "${var.pcf_infra_subnet_id}"
+  }
+}
+
+resource "azurerm_lb" "plane-credhub" {
+  resource_group_name = "${var.resource_group_name}"
+  name                = "${var.env_name}-credhub-lb"
+  location            = "${var.location}"
+
+  frontend_ip_configuration {
+    name                          = "${local.name_prefix}-credhub-ip"
+    private_ip_address            = "${var.cp_credhub_lb_ipaddress}"
+    private_ip_address_allocation = "Static"
+    subnet_id                     = "${var.pcf_infra_subnet_id}"
+  }
+}
+
 resource "azurerm_lb_backend_address_pool" "plane" {
   resource_group_name = "${var.resource_group_name}"
   name                = "${local.name_prefix}-pool"
   loadbalancer_id     = "${azurerm_lb.plane.id}"
+}
+
+resource "azurerm_lb_backend_address_pool" "plane-uaa" {
+  resource_group_name = "${var.resource_group_name}"
+  name                = "${local.name_prefix}-uaa-pool"
+  loadbalancer_id     = "${azurerm_lb.plane-uaa.id}"
+}
+
+resource "azurerm_lb_backend_address_pool" "plane-credhub" {
+  resource_group_name = "${var.resource_group_name}"
+  name                = "${local.name_prefix}-credhub-pool"
+  loadbalancer_id     = "${azurerm_lb.plane-credhub.id}"
 }
 
 resource "azurerm_lb_probe" "plane" {
@@ -40,6 +80,32 @@ resource "azurerm_lb_probe" "plane" {
   protocol = "Tcp"
 
   loadbalancer_id     = "${azurerm_lb.plane.id}"
+  interval_in_seconds = 5
+  number_of_probes    = 2
+}
+
+resource "azurerm_lb_probe" "plane-uaa" {
+  resource_group_name = "${var.resource_group_name}"
+  count               = "${length(local.uaa_ports)}"
+  name                = "${local.name_prefix}-uaa-${element(local.uaa_ports, count.index)}-probe"
+
+  port     = "${element(local.uaa_ports, count.index)}"
+  protocol = "Tcp"
+
+  loadbalancer_id     = "${azurerm_lb.plane-uaa.id}"
+  interval_in_seconds = 5
+  number_of_probes    = 2
+}
+
+resource "azurerm_lb_probe" "plane-credhub" {
+  resource_group_name = "${var.resource_group_name}"
+  count               = "${length(local.credhub_ports)}"
+  name                = "${local.name_prefix}-credhub-${element(local.credhub_ports, count.index)}-probe"
+
+  port     = "${element(local.credhub_ports, count.index)}"
+  protocol = "Tcp"
+
+  loadbalancer_id     = "${azurerm_lb.plane-credhub.id}"
   interval_in_seconds = 5
   number_of_probes    = 2
 }
@@ -56,6 +122,34 @@ resource "azurerm_lb_rule" "plane" {
   backend_address_pool_id        = "${azurerm_lb_backend_address_pool.plane.id}"
   frontend_ip_configuration_name = "${local.name_prefix}-ip"
   probe_id                       = "${element(azurerm_lb_probe.plane.*.id, count.index)}"
+}
+
+resource "azurerm_lb_rule" "plane-uaa" {
+  resource_group_name = "${var.resource_group_name}"
+  count               = "${length(local.uaa_ports)}"
+  name                = "${local.name_prefix}-uaa-${element(local.uaa_ports, count.index)}"
+
+  protocol                       = "Tcp"
+  loadbalancer_id                = "${azurerm_lb.plane-uaa.id}"
+  frontend_port                  = "${element(local.uaa_ports, count.index)}"
+  backend_port                   = "${element(local.uaa_ports, count.index)}"
+  backend_address_pool_id        = "${azurerm_lb_backend_address_pool.plane-uaa.id}"
+  frontend_ip_configuration_name = "${local.name_prefix}-uaa-ip"
+  probe_id                       = "${element(azurerm_lb_probe.plane-uaa.*.id, count.index)}"
+}
+
+resource "azurerm_lb_rule" "plane-credhub" {
+  resource_group_name = "${var.resource_group_name}"
+  count               = "${length(local.credhub_ports)}"
+  name                = "${local.name_prefix}-credhub-${element(local.uaa_ports, count.index)}"
+
+  protocol                       = "Tcp"
+  loadbalancer_id                = "${azurerm_lb.plane-credhub.id}"
+  frontend_port                  = "${element(local.uaa_ports, count.index)}"
+  backend_port                   = "${element(local.uaa_ports, count.index)}"
+  backend_address_pool_id        = "${azurerm_lb_backend_address_pool.plane-credhub.id}"
+  frontend_ip_configuration_name = "${local.name_prefix}-credhub-ip"
+  probe_id                       = "${element(azurerm_lb_probe.plane-credhub.*.id, count.index)}"
 }
 
 # Firewall
@@ -77,6 +171,36 @@ resource "azurerm_network_security_rule" "plane" {
   protocol                   = "Tcp"
   source_port_range          = "*"
   destination_port_ranges    = "${local.web_ports}"
+  source_address_prefix      = "*"
+  destination_address_prefix = "*"
+}
+
+resource "azurerm_network_security_rule" "plane-uaa" {
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.plane.name}"
+
+  name                       = "${local.name_prefix}-security-group-uaa-rule"
+  priority                   = 100
+  direction                  = "Inbound"
+  access                     = "Allow"
+  protocol                   = "Tcp"
+  source_port_range          = "*"
+  destination_port_ranges    = "${local.uaa_ports}"
+  source_address_prefix      = "*"
+  destination_address_prefix = "*"
+}
+
+resource "azurerm_network_security_rule" "plane-credhub" {
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.plane.name}"
+
+  name                       = "${local.name_prefix}-security-group-credhub-rule"
+  priority                   = 100
+  direction                  = "Inbound"
+  access                     = "Allow"
+  protocol                   = "Tcp"
+  source_port_range          = "*"
+  destination_port_ranges    = "${local.credhub_ports}"
   source_address_prefix      = "*"
   destination_address_prefix = "*"
 }

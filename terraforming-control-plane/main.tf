@@ -59,6 +59,8 @@ module "control_plane" {
   location                       = "${var.location}"
   external_db                    = "${var.external_db}"
   cp_lb_ipaddress                = "${var.cp_lb_ipaddress}"
+  cp_credhub_lb_ipaddress        = "${var.cp_credhub_lb_ipaddress}"
+  cp_uaa_lb_ipaddress            = "${var.cp_uaa_lb_ipaddress}"
   pcf_infra_subnet_id            = "${module.infra.infrastructure_subnet_id}"
   pcf_infrastructure_subnet_name = "${var.pcf_infrastructure_subnet_name}"
   pcf_vnet_resourcegroup         = "${var.pcf_vnet_resourcegroup}"

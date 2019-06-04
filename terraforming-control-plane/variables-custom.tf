@@ -32,3 +32,15 @@ variable "cp_lb_ipaddress" {
   description = "Static IP address for Control Plane LB"
   default     = ""
 }
+
+variable "cp_credhub_lb_ipaddress" {
+  type        = "string"
+  description = "Static IP address for Control Plane Credhub LB"
+  default     = ""
+}
+
+variable "cp_uaa_lb_ipaddress" {
+  type        = "string"
+  description = "Static IP address for Control Plane UAA LB"
+  default     = ""
+}
