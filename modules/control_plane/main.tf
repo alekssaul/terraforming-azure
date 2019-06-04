@@ -180,7 +180,7 @@ resource "azurerm_network_security_rule" "plane-uaa" {
   network_security_group_name = "${azurerm_network_security_group.plane.name}"
 
   name                       = "${local.name_prefix}-security-group-uaa-rule"
-  priority                   = 100
+  priority                   = 101
   direction                  = "Inbound"
   access                     = "Allow"
   protocol                   = "Tcp"
@@ -195,7 +195,7 @@ resource "azurerm_network_security_rule" "plane-credhub" {
   network_security_group_name = "${azurerm_network_security_group.plane.name}"
 
   name                       = "${local.name_prefix}-security-group-credhub-rule"
-  priority                   = 100
+  priority                   = 102
   direction                  = "Inbound"
   access                     = "Allow"
   protocol                   = "Tcp"
