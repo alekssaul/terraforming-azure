@@ -123,6 +123,14 @@ output "control_plane_lb_name" {
   value = "${module.control_plane.plane_lb_name}"
 }
 
+output "control_plane_uaa_lb_name" {
+  value = "${module.control_plane.plane_uaa_lb_name}"
+}
+
+output "control_plane_uaa_credhub_name" {
+  value = "${module.control_plane.plane_uaa_credhub_name}"
+}
+
 output "control_plane_db_username" {
   value = "${var.external_db > 0 ? module.control_plane.postgres_username : ""}"
 }
